@@ -1,0 +1,29 @@
+mittelwert: 
+    push ebp 
+    push ebx 
+    push eax
+    push ecx 
+    push edx
+    mov ecx, 0 
+    mov ebp, esp
+    mov eax, [ebp + 12] 
+
+loop: 
+    cmp [eax], 0
+    jz divide: 
+    add ecx, [eax]
+    add eax, 4
+    inc ebx 
+    jmp loop
+
+divide: 
+    mov edx, 0
+    idiv ebx
+    mov [ebp + 8], eax
+
+    pop edx 
+    pop ecx 
+    pop eax
+    pop ebx
+    pop ebp 
+    ret 
