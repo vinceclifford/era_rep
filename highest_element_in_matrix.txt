@@ -1,28 +1,34 @@
 find_biggest: 
-    push ebx      
+    push ebx  
+    push ecx    
     push esi 
+    mov ecx, 0 
 
 beginning_loop: 
     cmp DWORD [eax], 0 
     jnz reset_esi_and_save_element 
     inc esi 
     cmp esi, 2 
-    jz end_of_program
-    jmp dont_reset_esi 
+    je end_of_program
+    jmp next_adress 
 
 reset_esi_and_save_element:
     mov esi, 0 
     mov ebx, [eax]
+    cmp ebx, 0 
+    jge dont_negate 
+    neg ebx
 
-dont_reset_esi_and_next_adress: 
+dont_negate:
+    cmp ecx, ebx
+    jge next_adress
+    mov ebx, ecx  
+
+next_adress: 
     add eax, 4 
     jmp beginning_loop
 
-end_of_program: 
-    cmp ebx, 0 
-    jge dont_negate: 
-    neg ebx
-    dont_negate
+end_of_program:  
     mov eax, ebx 
     pop ebx 
     pop esi 

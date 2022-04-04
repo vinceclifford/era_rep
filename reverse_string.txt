@@ -1,6 +1,5 @@
 palindrom_test: 
     push ebx
-    push ecx 
     push edx 
     mov ebx, eax 
 
@@ -8,7 +7,7 @@ beginning_first_loop:
     cmp BYTE [ebx], 0 
     je pointers_are_set 
     inc ebx 
-    jmp beginning_loop
+    jmp beginning__first_loop
 
 pointers_are_set: 
     dec ebx
@@ -18,13 +17,13 @@ beginning_second_loop:
     jle endresult 
     mov edx, 0 
     mov dl, [eax]
-    xchg dl, [eax]
-    mov [ebx], dl
+    xchg dl, [ebx]
+    mov [eax], dl
     inc eax 
     dec ebx 
     jump beginning_second_loop
 
 endresult: 
     pop edx 
-    pop ecx 
     pop ebx 
+    ret
