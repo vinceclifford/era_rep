@@ -9,7 +9,7 @@ mittelwert:
     mov eax, [ebp + 12] 
 
 loop: 
-    cmp [eax], 0
+    cmp [eax], DWORD 0
     jz divide: 
     add ecx, [eax]
     add eax, 4
