@@ -1,0 +1,57 @@
+print_list: 
+    ; Assumption that the starting address of the list is in eax 
+
+beginning_loop_print_list: 
+    cmp DWORD [eax], 0 
+    je end_print_list 
+    PRINT_DEC 4, [eax]
+    NEWLINE 
+    add eax, 4  
+    jmp beginning_loop_print_list
+
+end_print_list: 
+    ret 
+
+bubble_sort: 
+    ; Assumption that the starting address of the list is in eax 
+    push ebx 
+    push ecx
+    push edx 
+    xor ebx, ebx 
+
+beginning_loop_determine_length: 
+    cmp DWORD [eax + 4 * ebx], 0 
+    je counting_is_done 
+    inc ebx 
+    jmp beginning_loop_determine_length
+
+counting_is_done:
+    dec ebx 
+
+bubble_outer_loop: 
+    cmp ebx, 0 
+    je done_with_bubble_sort 
+    xor ecx, ecx 
+
+bubble_inner_loop: 
+    cmp ecx,  ebx 
+    jge after_inner_loop
+    mov edx, [eax + 4 * ecx]
+    cmp edx, [eax + 4 * ecx + 4]
+    jle dont_swap 
+    xchg edx, [eax + 4 * ecx + 4]
+    mov [eax + 4 * ecx], edx
+
+dont_swap: 
+    inc ecx 
+    jmp bubble_inner_loop
+
+after_inner_loop: 
+    dec ebx 
+    jmp bubble_outer_loop
+
+done_with_bubble_sort: 
+    pop edx 
+    pop ecx 
+    pop ebx 
+    ret  
