@@ -22,7 +22,7 @@ reset_esi_and_save_element:
 dont_negate:
     cmp ecx, ebx
     jge next_adress
-    mov ebx, ecx  
+    mov ecx, ebx  
 
 next_adress: 
     add eax, 4 

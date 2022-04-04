@@ -2,7 +2,7 @@ select_one:
     move edx, 1 
     mov cl, al 
     shl edx, cl 
-    not edx 
+    not edx x
     and ebx, edx 
     ret 
 

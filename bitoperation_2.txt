@@ -1,0 +1,30 @@
+task_1: 
+    xor eax, eax 
+    mov eax, -12 
+    imul eax, -1 
+    ret 
+
+task_2: 
+    push ebx 
+    and ebx, 0x0000FFFF
+    add eax, ebx 
+    pop ebx 
+    ret 
+
+task_3: 
+    and eax, 03FFFFFF
+    and ebx, FC000000
+    mov ecx, eax 
+    or ecx, ebx 
+    ret
+
+
+task_4: 
+    and eax, 0xAAAAAAAA
+    and ebx, 0x55555555
+    mov ecx, eax 
+    or ecx, ebx 
+    ret
+    
+
+
