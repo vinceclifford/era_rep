@@ -29,7 +29,8 @@ next_adress:
     jmp beginning_loop
 
 end_of_program:  
-    mov eax, ebx 
-    pop ebx 
+    mov eax, ecx 
     pop esi 
+    pop ecx 
+    pop ebx 
     ret
