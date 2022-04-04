@@ -94,13 +94,14 @@ cleanup:
     pop edx
     ret 
 
-
 strfindpattern: 
     ; ecx will be our pointer to the beginning of the pattern if existant
     push edx ; register for storing a value that will compare the string with the pattern
     push esi ; counter 
-    
+
 outer_loop_beginning: 
+    PRINT_DEC 4, eax
+    NEWLINE 
     cmp BYTE [eax], 0 
     je did_not_find_pattern
     xor esi, esi
@@ -121,7 +122,7 @@ does_not_match:
 
 did_not_find_pattern: 
     mov ecx, 0 
-    
+
 end_of_strfindpattern:
     pop esi 
     pop edx 
