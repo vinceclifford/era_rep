@@ -1,0 +1,19 @@
+ggt: 
+    mov eax, 12 
+    mov ebx, 4 
+
+beginning_loop: 
+    cmp eax, ebx 
+    je found_ggt 
+    jl sub_ebx_eax 
+    sub eax, ebx 
+    jmp beginning_loop
+
+sub_ebx_eax: 
+    sub ebx, eax 
+    jmp beginning_loop
+
+
+found_ggt: 
+    PRINT_DEC 4, eax 
+    ret 
