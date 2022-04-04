@@ -1,0 +1,36 @@
+palindrom_test: 
+    // first were going to determine the length of the string 
+    push ebx
+    push ecx 
+    push edx 
+    mov ebx, eax 
+    mov ecx, 1 // we are assuming, that it is a palindrom. Were goint to check that assumtion byte by byte. If we see two bits that are not the same, then well return false
+
+beginning_first_loop: 
+    cmp BYTE [ebx], 0 
+    je pointers_are_set 
+    inc ebx 
+    jmp beginning_loop
+
+pointers_are_set: 
+    dec ebx
+
+beginning_second_loop: 
+    cmp ebx, eax
+    jle endresult 
+    mov edx, 0 
+    mov dl, [eax]
+    cmp dl, [ebx]
+    jne not_palindrom
+    inc eax 
+    dec ebx 
+    jump beginning_second_loop
+
+not_palindrom: 
+    mov ecx, 1 
+
+endresult: 
+    mov eax, ecx 
+    pop edx 
+    pop ecx 
+    pop ebx 
