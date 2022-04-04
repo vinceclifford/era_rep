@@ -5,6 +5,7 @@ mittelwert:
     push ecx 
     push edx
     mov ecx, 0 
+    mov ebx, 0 
     mov ebp, esp
     mov eax, [ebp + 12] 
 
@@ -17,10 +18,18 @@ loop:
     jmp loop
 
 divide: 
+    cmp ebx, 0 
+    je zero: 
     mov edx, 0
+    mov eax, ecx
     idiv ebx
     mov [ebp + 8], eax
+    jmp push_and_pop
 
+zero: 
+    mov [ebp + 8], DWORD 0 
+
+ push_and_pop: 
     pop edx 
     pop ecx 
     pop eax
