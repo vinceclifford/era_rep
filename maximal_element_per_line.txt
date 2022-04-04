@@ -1,32 +1,27 @@
 maximal_element_per_line: 
     push ebx ; this is the accumulator 
     push ecx ; maximum guy line 
-    push esi ; how many zeros ive already seen 
     push edx  
     push edi ; amount of lines ive seen 
     xor ebx, ebx 
     xor ecx, ecx 
+    xor edi, edi 
 
 beginning_loop: 
     cmp DWORD [eax], 0 
     jne number_looking_at_not_zero
-    inc esi 
     inc edi
-    cmp esi, 2 
+    add ebx, ecx  
+    xor ecx, ecx
+    cmp DWORD [eax + 4], 0 
     je divide 
-    cmp esi, 1 
-    je set_up_for_new_line
-
-number_looking_at_not_zero: 
-    mov esi, 0
-    cmp ecx, [eax] 
-    jge next_adress
-    mov ecx, [eax] 
     jmp next_adress
 
-set_up_for_new_line: 
-    add ebx, ecx 
-    xor ecx, ecx
+number_looking_at_not_zero: 
+    cmp ecx, [eax] 
+    jge next_adress
+    mov ecx, [eax]     
+    jmp next_adress
 
 next_adress: 
     add eax, 4 
@@ -34,11 +29,10 @@ next_adress:
 
 divide: 
     xor edx, edx 
-    mov eax, ecx
-    div edi 
+    mov eax, ebx
+    div edi  
     pop edi 
     pop edx 
-    pop esi 
     pop ecx
     pop ebx 
     ret
