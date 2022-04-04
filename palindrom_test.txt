@@ -1,5 +1,4 @@
 palindrom_test: 
-    // first were going to determine the length of the string 
     push ebx
     push ecx 
     push edx 
@@ -10,7 +9,7 @@ beginning_first_loop:
     cmp BYTE [ebx], 0 
     je pointers_are_set 
     inc ebx 
-    jmp beginning_loop
+    jmp beginning_first_loop
 
 pointers_are_set: 
     dec ebx
@@ -34,3 +33,4 @@ endresult:
     pop edx 
     pop ecx 
     pop ebx 
+    ret 
