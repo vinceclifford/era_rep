@@ -1,36 +1,31 @@
 caps_lock: 
     push ebx
-    push eax 
     xor ebx, ebx 
 
 beginning_loop: 
     cmp BYTE [eax], 0 
     je ende_von_string
-
     mov bl, [eax]
-
     cmp bl, 64
     jle not_upper_letter
     cmp bl, 91 
-    jge not_upper_letter 
+    jge not_upper_letter  
     add bl, 32 
-    mov [eax], bl 
-    jmp increment_eac
+    mov [eax], bl
+    jmp increment_eax
 
 not_upper_letter: 
     cmp bl, 96
-    jle increment_eac
+    jle increment_eax
     cmp bl, 123 
-    jge increment_eac
+    jge increment_eax
     sub bl, 32 
     mov [eax], bl 
 
-increment_eac: 
+increment_eax: 
     inc eax 
     jmp beginning_loop
 
 ende_von_string: 
-    push eax 
-    push ebx 
+    pop ebx 
     ret 
-
