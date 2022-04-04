@@ -30,3 +30,19 @@ valid_character:
 
 end_check_validity: 
     pop ebx 
+
+
+strlength: 
+    push ebx 
+    xor ebx, ebx 
+
+beginning_loop_strlength: 
+    cmp BYTE [eax + ebx], 0 
+    je end_of_strlength
+    inc ebx
+    jmp beginning_loop_strlength
+
+end_of_strlength: 
+    mov eax, ebx 
+    pop ebx 
+    ret 
