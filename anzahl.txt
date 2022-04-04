@@ -1,0 +1,39 @@
+anzahl: 
+    push ebp 
+    mov ebp 
+    push eax 
+    push ebx 
+    push ecx
+    push edx
+    push esi 
+
+    mov esi, 0 
+    mov eax, [ebp + 16] // Annahme, dass String als erster Paramter übergeben wird. 
+    mov ebx, [ebp + 12] // Annahme, dass der gesuchte Buchstabe als zweiter Paramter übergeben wird. 
+    mov ecx, 0
+    mov cl, [ebx]
+    mov edx, 0 
+    mov dl, [eax]
+
+loop: 
+    cmp dl, 0 
+    jz end
+
+    cmp dl, cl 
+    jnz dont_increment
+    inc esi 
+
+dont_increment: 
+    inc eax 
+    mov dl, [eax]
+    jmp loop
+
+end: 
+    mov esi, [ebp + 8]
+    pop esi 
+    pop edx 
+    pop ecx 
+    pop ebx 
+    pop eax 
+    pop ebp 
+    ret 
