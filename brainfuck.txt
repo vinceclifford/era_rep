@@ -64,3 +64,32 @@ end_of_strcpy:
     mov [ebx], BYTE  0 
     pop ecx 
     ret
+
+
+strcmp: 
+    push edx
+    mov ecx, 1 
+
+beginning_loop_strcmp: 
+    cmp [eax], 0 
+    je last_comp    
+    mov dl, [eax]
+    cmp dl, [ebx]
+    jne not_the_same_letter
+    inc eax 
+    inc ebx 
+    jmp beginning_loop_strcmp
+
+
+not_the_same_letter: 
+    mov ecx, 0 
+    jmp cleanup
+
+last_comp: 
+    mov dl, [eax]
+    cmp dl, [ebx]
+    jne not_the_same_letter
+
+cleanup: 
+    pop edx
+    ret 
