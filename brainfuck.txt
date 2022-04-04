@@ -46,3 +46,21 @@ end_of_strlength:
     mov eax, ebx 
     pop ebx 
     ret 
+
+
+strcpy: 
+    push ecx 
+
+beginning_loop_strcpy: 
+    cmp BYTE [eax], 0 
+    je end_of_strcpy
+    mov cl, [eax]
+    mov [ebx], cl 
+    inc eax 
+    inc ebx 
+    jmp beginning_loop_strcpy
+
+end_of_strcpy: 
+    mov [ebx], BYTE  0 
+    pop ecx 
+    ret
