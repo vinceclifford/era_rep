@@ -1,0 +1,37 @@
+is_matching: 
+    push eax
+    xor eax, eax 
+    mov ecx, 1 
+
+beginning_loop: 
+    
+    cmp BYTE [esi], 0
+    je end_of_bracket_love
+    cmp BYTE [esi], 40 
+    je inc_eax 
+    cmp BYTE [esi], 41 
+    je dec_eax
+
+inc_eax: 
+    inc eax 
+    jmp lower_part_loop
+
+dec_eax: 
+    dec eax 
+    cmp eax, 0 
+    jl invalid_bracket_positioning 
+
+lower_part_loop:  
+    inc esi 
+    jmp beginning_loop
+
+invalid_bracket_positioning: 
+    mov ecx, 0
+    jmp cleanup 
+
+end_of_bracket_love: 
+    cmp eax, 0 
+    jne invalid_bracket_positioning
+
+cleanup: 
+    pop eax 
