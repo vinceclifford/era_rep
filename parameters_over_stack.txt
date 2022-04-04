@@ -1,0 +1,13 @@
+parameter_uebergabe: 
+    push ebp 
+    mov ebp, esp 
+    push eax 
+    
+
+    mov eax, [ebp + 12]
+    add eax, [ebp + 16]
+    mov [ebp + 8], eax
+
+    pop eax 
+    pop ebp 
+    ret 
