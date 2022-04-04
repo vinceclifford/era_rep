@@ -7,8 +7,8 @@ beginning_first_loop:
     cmp BYTE [ebx], 0 
     je pointers_are_set 
     inc ebx 
-    jmp beginning__first_loop
-
+    jmp beginning_first_loop
+    
 pointers_are_set: 
     dec ebx
 
@@ -21,7 +21,7 @@ beginning_second_loop:
     mov [eax], dl
     inc eax 
     dec ebx 
-    jump beginning_second_loop
+    jmp beginning_second_loop
 
 endresult: 
     pop edx 
