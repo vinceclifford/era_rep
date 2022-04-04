@@ -1,0 +1,13 @@
+task_1: 
+    shl eax, 3 
+
+task_2: 
+    sar eax, 2 
+
+task_3: 
+    ror eax, 16 
+
+task_4: 
+    and eax, 0x0000001F
+
+task_5: 
