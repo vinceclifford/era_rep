@@ -1,0 +1,32 @@
+check_bf_validity: 
+    push ebx 
+    mov bl BYTE [eax]
+    mov ecx, 1 
+
+    cmp bl, 0 
+    je end_check_validity
+    cmp bl, 44 
+    je valid_character  
+    cmp bl, 46 
+    je valid_character  
+    cmp bl, 60 
+    je valid_character  
+    cmp bl, 62  
+    je valid_character  
+    cmp bl, 43 
+    je valid_character  
+    cmp bl, 45  
+    je valid_character  
+    cmp bl, 91  
+    je valid_character  
+    cmp bl, 93 
+    je valid_character  
+    mov ecx, 0 
+    jmp end_check_validity
+
+valid_character: 
+    inc eax
+    jmp check_bf_validity 
+
+end_check_validity: 
+    pop ebx 
