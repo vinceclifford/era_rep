@@ -1,0 +1,16 @@
+swap: 
+    push edx
+    mov eax, edx 
+    shl eax, 16
+    shr edx, 16 
+    mov ax, dx 
+    pop edx
+    ret 
+
+copy_ebx: 
+    push ebx 
+    and ebx, 0x000007C0
+    and eax, 0xFFFFF83F
+    or eax, ebx
+    pop ebx 
+    ret 
