@@ -93,3 +93,36 @@ last_comp:
 cleanup: 
     pop edx
     ret 
+
+
+strfindpattern: 
+    ; ecx will be our pointer to the beginning of the pattern if existant
+    push edx ; register for storing a value that will compare the string with the pattern
+    push esi ; counter 
+    
+outer_loop_beginning: 
+    cmp BYTE [eax], 0 
+    je did_not_find_pattern
+    xor esi, esi
+    mov ecx, eax 
+
+inner_loop_beginning: 
+    cmp BYTE [ebx + esi], 0 
+    je end_of_strfindpattern
+    mov dl, [ebx + esi]
+    cmp dl, [eax + esi]
+    jne does_not_match 
+    inc esi 
+    jmp inner_loop_beginning
+
+does_not_match: 
+    inc eax 
+    jmp outer_loop_beginning
+
+did_not_find_pattern: 
+    mov ecx, 0 
+    
+end_of_strfindpattern:
+    pop esi 
+    pop edx 
+    ret
