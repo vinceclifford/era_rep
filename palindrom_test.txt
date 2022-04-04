@@ -1,6 +1,5 @@
 palindrom_test: 
     push ebx
-    push ecx 
     push edx 
     mov ebx, eax 
     mov ecx, 1 // we are assuming, that it is a palindrom. Were goint to check that assumtion byte by byte. If we see two bits that are not the same, then well return false
@@ -26,11 +25,10 @@ beginning_second_loop:
     jump beginning_second_loop
 
 not_palindrom: 
-    mov ecx, 1 
+    mov ecx, 0 
 
 endresult: 
     mov eax, ecx 
     pop edx 
-    pop ecx 
     pop ebx 
     ret 
