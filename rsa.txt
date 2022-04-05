@@ -1,0 +1,155 @@
+%include "io.inc"
+
+section .data 
+list: DD 2,2,4,2,0
+section .txt
+global CMAIN
+CMAIN: 
+    push DWORD 11 
+    push DWORD 13 
+    sub esp, 12 
+    call berechnung_rsa 
+    add esp, 20
+    ret 
+    
+berechnung_rsa: 
+    push ebp 
+    mov ebp, esp 
+    mov eax, [ebp + 20]
+    mov ebx, [ebp + 24]
+    dec eax 
+    dec ebx 
+    mul ebx 
+    mov [ebp + 16], eax 
+    
+    mov eax, [ebp + 20]
+    mov ebx, [ebp + 24]
+    call berechnung_von_phi_n ; in eax first prime, in ebx second prime, in ecx phi n  
+    mov eax, ecx 
+    call find_e 
+    mov [ebp + 12], ebx ; in eax there is phi of n, in ebx there is e 
+    
+    xchg eax, ebx 
+    call find_d 
+    mov [ebp + 8], ecx ; in eax there is a, in ebx there is phi of n, in ecx there is d 
+        
+    pop ebp 
+    ret  
+
+ berechnung_von_phi_n: 
+    ; Assumption that the two primes will be handed over in eax and ebx and the result will be given back in ecx 
+    push eax 
+    push edx 
+    dec eax 
+    dec ebx
+      
+    mul ebx 
+    mov ecx, eax 
+    pop edx 
+    pop eax 
+
+ggt: 
+    ; the two parameters will be handed in over eax and ebx 
+beginning_ggt_loop: 
+    cmp eax, ebx 
+    je found_ggt 
+    jl sub_ebx_eax 
+    sub eax, ebx 
+    jmp beginning_ggt_loop
+
+sub_ebx_eax: 
+    sub ebx, eax 
+    jmp beginning_ggt_loop
+    
+found_ggt: 
+    ret 
+
+find_e: 
+    ; Assumption that phi of N will be provided in eax, the result will be handed back in ebx 
+    push eax 
+    push ecx 
+    push edx 
+    mov edx, 2 
+    mov ecx, eax 
+
+beginning_find_loop: 
+    mov eax, ecx 
+    mov ebx, edx 
+
+    call ggt
+    cmp eax, 1 
+    je found_e 
+    inc edx 
+    jmp beginning_find_loop
+
+found_e: 
+    mov ebx, edx 
+    pop edx 
+    pop ecx 
+    pop eax
+    ret  
+   
+find_d: 
+    ; Assumption: In eax well provide e and in ebx well provide phi(n). Result will be provided in ecx 
+    push eax 
+    push ebx 
+    push esi 
+    mov ecx, 1 
+    mov esi, eax 
+
+beginning_find_d_loop: 
+    mov eax, esi 
+    mul ecx
+    xor edx, edx  
+    div ebx 
+     
+    cmp edx, 1
+    je found_d  
+    inc ecx 
+    jmp beginning_find_d_loop
+
+found_d: 
+    pop esi 
+    pop ebx 
+    pop eax 
+    ret 
+    
+potenz_berechnen: 
+    ; Annahme, dass in esi die basis steht und in edi der exponent. Rückgabe erfolgt im Register edx
+    push eax 
+    push esi 
+    push edi 
+    mov eax, 1 
+    xor edx, edx 
+    
+
+beginn_potenz_berechnen_loop:  
+    cmp edi, 0 
+    jz end_potenz_berechnen
+    mul esi 
+    dec edi 
+    jmp beginn_potenz_berechnen_loop
+
+end_potenz_berechnen:
+    mov edx, eax  
+    pop eax 
+    pop esi 
+    pop edi 
+    ret 
+    
+verschluesselung_oder_entschluesselung: 
+    ; Annahme, dass in esi die basis steht, in edi der exponent und in ebx das Modulo 
+    push edx 
+    xor eax, eax 
+    xor edx, edx 
+    
+    call potenz_berechnen 
+    PRINT_DEC 4, edx 
+    NEWLINE
+      
+    mov eax, edx 
+    xor edx, edx 
+    div ebx 
+    mov eax, edx 
+    pop edx   
+    ret 
