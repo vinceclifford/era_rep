@@ -7,7 +7,7 @@ beginning_loop:
     je ende_von_string
     mov bl, [eax]
     cmp bl, 64
-    jle not_upper_letter
+    jle increment_eax
     cmp bl, 91 
     jge not_upper_letter  
     add bl, 32 

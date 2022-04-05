@@ -1,0 +1,81 @@
+cross_sum_of_eax: 
+    push ebx 
+    push ecx 
+    push edx 
+    mov ecx, 10 
+    mov edx, 0 
+    mov ebx, 0 
+
+loop_of_individual_cross_sum:  
+    cmp eax, 0 
+    je end_cross_sum  
+    div ecx
+    add ebx, edx; 
+    xor edx, edx 
+    jmp loop_of_individual_cross_sum
+
+end_cross_sum:
+    mov eax, ebx  
+    pop edx 
+    pop ecx 
+    pop ebx 
+    ret 
+
+cross_sum_of_two_registers: 
+    push edx 
+    push esi 
+    push ecx 
+    mov esi, 0 
+
+    cmp eax, 0 
+    jg check_ebx_for_negative 
+    cmp ebx, 0 
+    jl check_ebx_for_negative
+    mov esi, 1 
+
+check_ebx_for_negative: 
+    cmp ebx, 0 
+    jg negate_if_necessary  
+    cmp eax, 0 
+    jl negate_if_necessary 
+    mov esi, 1 
+
+negate_if_necessary: 
+    cmp ebx, 0 
+    jg compare_other_guy
+    neg ebx 
+
+compare_other_guy:  
+    cmp eax,0 
+    jg continue
+    neg eax
+
+continue: 
+    call cross_sum_of_eax
+    mov ecx, eax 
+    mov eax, ebx 
+    call cross_sum_of_eax
+    mul ecx 
+
+    cmp esi, 1 
+    jl done_with_cross_sum_of_two_registers
+    neg eax
+
+done_with_cross_sum_of_two_registers: 
+    pop ecx 
+    pop esi 
+    pop edx 
+    ret
+    
+cross_sum_of_four_registers: 
+    push esi 
+    call cross_sum_of_two_registers
+    mov esi, eax 
+    mov eax, ecx 
+     
+    mov ebx, edx 
+
+    call cross_sum_of_two_registers
+    add eax, esi 
+    pop esi 
+    ret 
