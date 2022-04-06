@@ -1,0 +1,55 @@
+section .bss 
+    struct1: RESD 8 
+    struct2: RESD 8
+    struct3: RESD 2 
+
+section .txt
+global CMAIN 
+CMAIN: 
+    mov eax, 0
+beginning_initialization: 
+    cmp eax, 8 
+    je over_initialization
+    mov [struct1 + 4 * eax], eax 
+    mov [struct2 + 4 * eax], eax 
+    inc eax 
+    jmp beginning_initialization
+
+over_initialization: 
+    mov [struct3],DWORD struct1
+    mov [struct3 + 4],DWORD struct1
+    mov eax, struct3
+
+    call add 
+    xor ecx, ecx 
+    
+beginning_test: 
+    cmp ecx, 8 
+    je done
+    PRINT_DEC 4, [struct1 + 4* ecx]
+    NEWLINE 
+    inc ecx 
+    jmp beginning_test 
+    
+done: 
+    ret
+
+add:
+    ; Annahme: Der Pointer zu dem Struktur2 Objekt wird in eax übergeben 
+    push ebx 
+    xor ebx, ebx 
+    mov esi, [eax + 4]
+    mov eax, [eax]
+     
+beginning_add_loop: 
+    cmp ebx, 8 
+    je finished_loop
+    mov edx, DWORD [eax + 4 * ebx] 
+    add edx, DWORD [esi + 4 * ebx]
+    mov [eax + 4 * ebx], edx
+    inc ebx 
+    jmp beginning_add_loop
+
+finished_loop: 
+    pop ebx 
+    ret 
