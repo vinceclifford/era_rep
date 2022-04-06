@@ -114,8 +114,8 @@ found_d:
     pop eax 
     ret 
     
-potenz_berechnen: 
-    ; Annahme, dass in esi die basis steht und in edi der exponent. Rückgabe erfolgt im Register edx
+verschluesselung_oder_entschluesselung_version: 
+    ; Annahme, dass in esi die basis steht und in edi der exponent. In ebx soll die Modulo zahl stehen. Rückgabe erfolgt im Register edx
     push eax 
     push esi 
     push edi 
@@ -123,33 +123,20 @@ potenz_berechnen:
     xor edx, edx 
     
 
-beginn_potenz_berechnen_loop:  
+beginn_verschluesselung_loop:  
     cmp edi, 0 
-    jz end_potenz_berechnen
-    mul esi 
+    jz end_verschluesselung
+    mul esi
+    xor edx, edx 
+    div ebx 
+    mov eax, edx
+    xor edx, edx  
     dec edi 
-    jmp beginn_potenz_berechnen_loop
+    jmp beginn_verschluesselung_loop
 
-end_potenz_berechnen:
+end_verschluesselung:
     mov edx, eax  
     pop eax 
     pop esi 
     pop edi 
-    ret 
-    
-verschluesselung_oder_entschluesselung: 
-    ; Annahme, dass in esi die basis steht, in edi der exponent und in ebx das Modulo 
-    push edx 
-    xor eax, eax 
-    xor edx, edx 
-    
-    call potenz_berechnen 
-    PRINT_DEC 4, edx 
-    NEWLINE
-      
-    mov eax, edx 
-    xor edx, edx 
-    div ebx 
-    mov eax, edx 
-    pop edx   
     ret 
