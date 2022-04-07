@@ -1,0 +1,30 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity schaltung is 
+    port(
+        a: in std_logic_vector(1 downto 0); 
+        b: in std_logic_vector(1 downto 0); 
+        f,g: out std_logic
+    ); 
+end entity; 
+
+architecture behav of schaltung is 
+    signal x1: std_logic; 
+    signal x2: std_logic; 
+    signal x3: std_logic; 
+    signal x4: std_logic; 
+
+begin
+    x1 <= a(0) or not b(0); 
+    x2 <= not (a(1) xor b(1))
+    x3 <= a(1) and not b(1)
+    x4 <= x1 and x2
+
+    g <= x4 or x3; 
+    f <= x4; 
+
+end architecture; 
+
+

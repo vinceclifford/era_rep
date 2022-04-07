@@ -1,0 +1,65 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity heizung is
+    port(
+        clk, temp: in std_logic; 
+        heat, alarm : out std_logic
+    ); 
+end entity; 
+
+architecture behavioural of heizung is 
+    signal state: unsigned(2 downto 0) := "001"; 
+
+begin 
+    process(clk)
+    begin 
+        if rising_edge(clk) then 
+            case state is 
+
+                WHEN "001" | "010" | "101" | "110" =>
+                    if temp = '1' then
+                        state <= state + 1; 
+                    elsif temp = '0' then  
+                        state <= state - 1; 
+                    end if; 
+
+                WHEN "000" => 
+                    if temp = '1' then 
+                        state <= "010"; 
+                    end if; 
+
+                WHEN "111" => 
+                    if temp = '0' then 
+                        state <= "101"; 
+                    end if; 
+
+                WHEN "011" => 
+                    if temp = '1' then 
+                        state <= state + 2; 
+                    elsif temp = '0' then 
+                        state <= state - 1; 
+                    end if; 
+
+                WHEN "100" => 
+                    if temp = '0' then 
+                        state <= state - 2; 
+                    elsif temp = '1' then 
+                        state <= state + 1; 
+                    end if; 
+                WHEN others => 
+            end case; 
+        end if; 
+    end process; 
+
+    alarm <= '1' when (state = "000" or state = "111") else '0'; 
+    heat <= '1' when state < 4 else '0'; 
+
+ end architecture; 
+
+            
+            
+
+            
+
