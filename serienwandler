@@ -1,0 +1,19 @@
+entity schiebewandler is
+    port(
+        clk, s: in std_logic; 
+        register: out std_logic_vector(7 downto 0)
+    ); 
+end entity; 
+
+architecture behavioural of schiebewandler is
+    signal register_in: std_logic_vector(7 downto 0) := "00000000"; 
+begin
+    process(clk)
+        if rising_edge(clk) then 
+            register_in <= register_in(6 downto 0) & s; 
+        end if; 
+    end process; 
+
+    register <= register_in; 
+    
+end architecture; 
